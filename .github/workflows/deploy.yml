@@ -21,9 +21,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     
-    - name: Deploy to Render
-      uses: render-oss/render-deploy-action@v1
-      with:
-        apiKey: ${{ secrets.RENDER_API_KEY }}
-        serviceId: ${{ secrets.RENDER_SERVICE_ID }}
+    - name: Deploy to Render using API
+      run: |
+        # Trigger a new deployment using Render's API
+        curl -X POST \
+          https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys \
+          -H 'Accept: application/json' \
+          -H 'Authorization: Bearer ${{ secrets.RENDER_API_KEY }}' \
+          -H 'Content-Type: application/json' \
+          -d '{"clearCache": "do_not_clear"}'
+      env:
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
         renderYmlPath: ./render.yaml
