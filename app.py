@@ -17,7 +17,7 @@ def get_current_time():
     formatted_time = now.strftime("%d/%m/%Y %I:%M:%S %p")
 
     return jsonify({
-        "message": "Current time fetched successfully.",
+        "message": "Current time fetched successfully - PR Test",
         "formatted_time": formatted_time
     })
 
