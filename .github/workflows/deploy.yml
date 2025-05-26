@@ -22,7 +22,8 @@ jobs:
       uses: actions/checkout@v3
     
     - name: Deploy to Render
-      uses: render-oss/render-deploy-action@v1.0.0
+      uses: render-oss/render-deploy-action@v1
       with:
         apiKey: ${{ secrets.RENDER_API_KEY }}
         serviceId: ${{ secrets.RENDER_SERVICE_ID }}
+        renderYmlPath: ./render.yaml
