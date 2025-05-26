@@ -7,10 +7,12 @@ A simple REST API that returns the current time in the specified timezone.
 - Returns current time in a readable format
 - Configurable timezone (default: America/Guayaquil)
 - CORS enabled
+- Automated testing with GitHub Actions
+- Automated deployment to Render
 
 ## Requirements
 
-- Python 3.7+
+- Python 3.10+
 - Flask
 - flask-cors
 - pytz
@@ -19,7 +21,7 @@ A simple REST API that returns the current time in the specified timezone.
 
 1. Clone the repository
 2. Install dependencies:
-   ```
+   ```bash
    pip install -r requirements.txt
    ```
 
@@ -47,13 +49,36 @@ GET /api/time
 }
 ```
 
+## CI/CD Pipeline
+
+This project uses GitHub Actions for continuous integration and deployment:
+
+1. **Test and Deploy Workflow** (`python-test.yml`):
+   - Runs on every push to main/master and pull requests
+   - Verifies the app can be imported
+   - Runs linter (flake8)
+
+2. **Deploy Workflow** (`deploy.yml`):
+   - Triggers after successful test workflow
+   - Deploys to Render automatically
+
 ## Deployment to Render
 
-1. Push your code to a GitHub/GitLab repository
+### Manual Deployment
+1. Push your code to a GitHub repository
 2. Create a new Web Service on Render
 3. Connect your repository
 4. Render will automatically detect the Python app
 5. Click "Create Web Service"
+
+### Automatic Deployment (Recommended)
+1. Create a new Web Service on Render manually the first time
+2. In your GitHub repository, go to Settings > Secrets > Actions
+3. Add the following secrets:
+   - `RENDER_API_KEY`: Your Render API key
+   - `RENDER_SERVICE_ID`: Your Render service ID (find it in the Render dashboard)
+
+After setting up the secrets, every push to main/master will trigger an automatic deployment if tests pass.
 
 ## Configuration
 

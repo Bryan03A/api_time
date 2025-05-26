@@ -1,17 +1,27 @@
-name: Verify App
+name: Test and Deploy
 
 on:
+  # Se activa cuando se hace push directo a main/master
   push:
     branches: [ main, master ]
+  
+  # O cuando se abre o actualiza un PR
   pull_request:
     branches: [ main, master ]
+    paths-ignore:
+      - 'README.md'
+      - '.gitignore'
+      - 'LICENSE'
+      - '.github/**/*.md'
 
 jobs:
-  verify:
+  test:
+    name: Run Tests
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
     
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -26,3 +36,9 @@ jobs:
     - name: Verify app starts
       run: |
         python -c "from app import app; print('App imported successfully')"
+    
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --max-complexity=10 --max-line-length=127 --statistics

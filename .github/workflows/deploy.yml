@@ -1,0 +1,28 @@
+name: Deploy to Render
+
+on:
+  # Se activa cuando se hace push directo a main/master
+  push:
+    branches: [ main, master ]
+  
+  # O cuando el workflow de pruebas en PR se completa exitosamente
+  workflow_run:
+    workflows: ["Test and Deploy"]
+    types: [completed]
+    branches: [main, master]
+
+jobs:
+  deploy:
+    # Solo ejecutar si es un push directo o si el workflow de pruebas fue exitoso
+    if: github.event_name == 'push' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Deploy to Render
+      uses: render-oss/render-deploy-action@v1.0.0
+      with:
+        apiKey: ${{ secrets.RENDER_API_KEY }}
+        serviceId: ${{ secrets.RENDER_SERVICE_ID }}

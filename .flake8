@@ -1,0 +1,10 @@
+[flake8]
+max-line-length = 127
+exclude = .git,__pycache__,venv
+max-complexity = 10
+ignore = E226,E302,E41,E128,E261,E305,E402,E501,E711,E712,E722,W503,W504
+per-file-ignores =
+    # La línea en blanco después de la clase de documentación
+    __init__.py: D100,D104
+    # Ignorar importaciones no utilizadas en __init__.py
+    __init__.py: F401
