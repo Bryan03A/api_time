@@ -12,7 +12,7 @@ def get_current_time():
     # Set the timezone to Quito, Ecuador
     tz = pytz.timezone('America/Guayaquil')
     now = datetime.now(tz)
-    
+
     # Format the time as dd/mm/yyyy hh:mm:ss AM/PM
     formatted_time = now.strftime("%d/%m/%Y %I:%M:%S %p")
 
